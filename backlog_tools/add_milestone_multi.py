@@ -10,6 +10,7 @@ MILESTONE_ID = 635640
 TARGET_STATUSES = [ # 指定したステータスのIssueが更新対象
     "処理中",
     "処理予定",
+    "レビュー中",
 ]
 IGNORE_ISSUE_TYPES = [ # 指定したタイプのIssueは除外される
     "PBI",
