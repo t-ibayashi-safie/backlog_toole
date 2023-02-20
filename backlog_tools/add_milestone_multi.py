@@ -7,12 +7,12 @@ logger = logging.getLogger()
 
 MILESTONE = "sprint_44"
 
-TARGET_STATUSES = [ # 指定したステータスのIssueが更新対象
+TARGET_STATUSES = [ # 指定した"状態"のIssueが更新対象
     "処理中",
     "処理予定",
     "レビュー中",
 ]
-IGNORE_ISSUE_TYPES = [ # 指定したタイプのIssueは除外される
+IGNORE_ISSUE_TYPES = [ # 指定した"種別"のIssueは除外される
     "PBI",
 ]
 
