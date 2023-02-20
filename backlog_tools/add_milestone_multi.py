@@ -5,7 +5,7 @@ from backlog_tools.settings import Settings
 
 logger = logging.getLogger()
 
-MILESTONE_ID = 635640
+MILESTONE = "sprint_44"
 
 TARGET_STATUSES = [ # 指定したステータスのIssueが更新対象
     "処理中",
@@ -17,6 +17,7 @@ IGNORE_ISSUE_TYPES = [ # 指定したタイプのIssueは除外される
 ]
 
 STATUS_ID_MAP = {}
+MILESTONE_MAP = {}
 PATH_TO_STATUS_MAP = "./data/statuses.json"
 PATH_TO_MILESTONE_MAP = "./data/milestones.json"
 
@@ -27,6 +28,14 @@ def main():
     global STATUS_ID_MAP
     with open(PATH_TO_STATUS_MAP, "r") as fp:
         STATUS_ID_MAP = json.load(fp)
+    
+    global MILESTONE_MAP
+    with open(PATH_TO_MILESTONE_MAP, "r") as fp:
+        MILESTONE_MAP = json.load(fp)
+
+    if MILESTONE not in MILESTONE_MAP:
+        raise Exception("MILESTONE {} is not found.".format(MILESTONE))
+    
     settings = Settings()
     base_url = settings.BASE_URL
     api_key = settings.API_KEY
@@ -56,9 +65,11 @@ def main():
         if issue_type in IGNORE_ISSUE_TYPES:
             continue
 
-        if MILESTONE_ID not in milestone_ids:
-            milestone_ids.append(MILESTONE_ID)
-        print("update ticket! {}".format(issue["summary"]))
+        milestone_id = MILESTONE_MAP.get(MILESTONE)
+        if milestone_id not in milestone_ids:
+            milestone_ids.append(milestone_id)
+
+        print("update ticket! {}: add mile_stone ({})".format(issue["summary"], MILESTONE))
         url = f"{base_url}/api/v2/issues/{issue_id}?apiKey={api_key}"
         response = requests.patch(
             url,
