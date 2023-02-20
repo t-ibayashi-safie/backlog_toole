@@ -1,0 +1,5 @@
+memo.md
+.env
+backlog_tools/__pycache__/
+data/milestones.json
+data/statuses.json
