@@ -50,6 +50,7 @@ def main():
                 project_id
             ],
             "statusId": [STATUS_ID_MAP[status] for status in TARGET_STATUSES],
+            "count": 100,
         }
     )
     response.raise_for_status()
