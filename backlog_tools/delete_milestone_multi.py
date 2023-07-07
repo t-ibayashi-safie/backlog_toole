@@ -6,14 +6,17 @@ from typing import List
 from backlog_tools.settings import Settings
 
 logger = logging.getLogger()
+logging.basicConfig(level=logging.INFO)
 
-MILESTONE = "sprint_53"
+MILESTONE = "sprint_51"
 
 TARGET_STATUSES = [ # 指定した"状態"のIssueが更新対象
-    "処理中",
-    "処理予定",
-    "レビュー中",
-    "処理済み",
+    "未対応",
+    "未対応 (優先順位設定済み)",
+    # "処理予定",
+    # "処理中",
+    # "レビュー中",
+    # "処理済み",
 ]
 IGNORE_ISSUE_TYPES = [ # 指定した"種別"のIssueは除外される
     "PBI",
@@ -96,11 +99,15 @@ def main():
             continue
 
         milestone_id = MILESTONE_MAP.get(MILESTONE)
+        # 指定したマイルストーンが設定されていない場合はスキップ
         if milestone_id not in milestone_ids:
-            milestone_ids.append(milestone_id)
+            continue
+        milestone_ids.remove(milestone_id)
 
-        print("update ticket! {}: add mile_stone ({})".format(issue["summary"], MILESTONE))
+        print("update ticket! {}: delete mile_stone ({})".format(issue["summary"], MILESTONE))
         url = f"{base_url}/api/v2/issues/{issue_id}?apiKey={api_key}"
+        # HACK
+        milestone_ids = milestone_ids + [MILESTONE_MAP['default']]
         response = requests.patch(
             url,
             json={

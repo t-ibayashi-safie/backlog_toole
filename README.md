@@ -23,4 +23,7 @@ python -m backlog_tools.fetch_statuses > ./data/statuses.json
 **更新を実行**
 ```bash
 python -m backlog_tools.add_milestone_multi
+
+
+python -m backlog_tools.delete_milestone_multi
 ```
